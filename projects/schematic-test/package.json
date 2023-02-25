@@ -1,12 +1,21 @@
 {
   "name": "schematic-test",
   "version": "0.0.1",
+  "scripts": {
+    "build": "tsc -p tsconfig.schematics.json",
+    "postbuild": "copyfiles schematics/collection.json ../../dist/schematic-test/"
+  },
   "peerDependencies": {
     "@angular/common": "^15.1.0",
     "@angular/core": "^15.1.0"
   },
-  "dependencies": {
-    "tslib": "^2.3.0"
+  "ng-add": {
+    "save": "devDependencies"
+  },
+  "schematics": "./schematics/collection.json",
+  "devDependencies": {
+    "copyfiles": "../../node_modules/copyfiles",
+    "typescript": "../../node_modules/typescript"
   },
   "sideEffects": false
 }
