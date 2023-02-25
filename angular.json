@@ -3,5 +3,38 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
+    "schematicTest": {
+      "projectType": "library",
+      "root": "projects/schematic-test",
+      "sourceRoot": "projects/schematic-test/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/schematic-test/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/schematic-test/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/schematic-test/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/schematic-test/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    }
   }
 }
