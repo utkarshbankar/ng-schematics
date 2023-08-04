@@ -1,0 +1,13 @@
+{
+  "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "schm-first": {
+      "description": "A blank schematic.",
+      "factory": "./schm-first/index#schmFirst"
+    },
+    "child-schem": {
+      "description": "A blank schematic.",
+      "factory": "./child-schem/index#childSchem"
+    }
+  }
+}
