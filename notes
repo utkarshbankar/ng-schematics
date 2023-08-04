@@ -1,0 +1,5 @@
+install schemantic cli
+- npm install -g @angular-devkit/schematics-cli
+
+followed this link and basic schematics is working
+- https://dev.to/shhdharmen/different-ways-to-run-schematics-from-another-schematics-1jd1
