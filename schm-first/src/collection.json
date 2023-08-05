@@ -25,6 +25,11 @@
     "aamf-ngadd-schm": {
       "description": "A blank schematic.",
       "factory": "./aamf-ngadd-schm/index#aamfNgaddSchm"
+    },
+    "structural-schm": {
+      "description": "A blank schematic.",
+      "factory": "./structural-schm/index#structuralSchm",
+      "schema": "./structural-schm/schema.json"
     }
   }
 }
