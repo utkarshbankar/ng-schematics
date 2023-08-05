@@ -8,6 +8,15 @@
     "child-schem": {
       "description": "A blank schematic.",
       "factory": "./child-schem/index#childSchem"
+    },
+    "lint-schm": {
+      "description": "A blank schematic.",
+      "factory": "./lint-schm/index#lintSchm",
+      "schema": "./lint-schm/schema.json"
+    },
+    "lint-caller-schm": {
+      "description": "A blank schematic.",
+      "factory": "./lint-caller-schm/index#lintCallerSchm"
     }
   }
 }
