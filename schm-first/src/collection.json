@@ -17,6 +17,14 @@
     "lint-caller-schm": {
       "description": "A blank schematic.",
       "factory": "./lint-caller-schm/index#lintCallerSchm"
+    },
+    "aamf-schm": {
+      "description": "A blank schematic.",
+      "factory": "./aamf-schm/index#aamfSchm"
+    },
+    "aamf-ngadd-schm": {
+      "description": "A blank schematic.",
+      "factory": "./aamf-ngadd-schm/index#aamfNgaddSchm"
     }
   }
 }
