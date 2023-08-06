@@ -5,7 +5,6 @@ import path = require('path');
 // import {dirname, join, resolve} from 'path';
 // import * as ts from 'typescript';
 
-
 // You don't have to export the function as default. You can also have more than one rule factory
 // per file.
 export function structuralSchm( options: StructureSchema): Rule {

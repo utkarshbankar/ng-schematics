@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./<%= dasherize(name) %>.component.scss'],
 })
 export class <%= classify(name) %>Component implements OnInit {
-
+title:string = '<%= name %>';
 constructor() { }
 
 ngOnInit(): void {

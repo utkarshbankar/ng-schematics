@@ -29,6 +29,19 @@
             },
             "x-prompt": "What is the name for the custom component?"
         },
+        "style": {
+            "description": "The file extension or preprocessor to use for style files.",
+            "type": "string",
+            "default": "css",
+            "enum": [
+              "css",
+              "scss",
+              "sass",
+              "less",
+              "styl"
+            ],
+            "x-prompt": "Which stylesheet format would you like to use?"
+          },
         "foo": {
             "type": "boolean",
             "default": false
