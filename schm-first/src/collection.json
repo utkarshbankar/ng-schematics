@@ -30,6 +30,11 @@
       "description": "A blank schematic.",
       "factory": "./structural-schm/index#structuralSchm",
       "schema": "./structural-schm/schema.json"
+    },
+    "container-schm": {
+      "description": "A blank schematic.",
+      "factory": "./container-schm/index#containerSchm",
+      "schema": "./container-schm/schema.json"
     }
   }
 }

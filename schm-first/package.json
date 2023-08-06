@@ -1,9 +1,10 @@
 {
   "name": "schm-first",
-  "version": "0.0.14",
+  "version": "0.0.21",
   "description": "A blank schematics",
   "scripts": {
     "build": "tsc -p tsconfig.json",
+    "watch": "tsc -p tsconfig.json --watch",
     "test": "npm run build && jasmine src/**/*_spec.js"
   },
   "keywords": [
