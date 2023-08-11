@@ -8,6 +8,37 @@
     "child-schem": {
       "description": "A blank schematic.",
       "factory": "./child-schem/index#childSchem"
+    },
+    "lint-schm": {
+      "description": "A blank schematic.",
+      "factory": "./lint-schm/index#lintSchm",
+      "schema": "./lint-schm/schema.json"
+    },
+    "lint-caller-schm": {
+      "description": "A blank schematic.",
+      "factory": "./lint-caller-schm/index#lintCallerSchm"
+    },
+    "aamf-schm": {
+      "description": "A blank schematic.",
+      "factory": "./aamf-schm/index#aamfSchm"
+    },
+    "aamf-ngadd-schm": {
+      "description": "A blank schematic.",
+      "factory": "./aamf-ngadd-schm/index#aamfNgaddSchm"
+    },
+    "structural-schm": {
+      "description": "A blank schematic.",
+      "factory": "./structural-schm/index#structuralSchm",
+      "schema": "./structural-schm/schema.json"
+    },
+    "container-schm": {
+      "description": "A blank schematic.",
+      "factory": "./container-schm/index#containerSchm",
+      "schema": "./container-schm/schema.json"
+    },
+    "featuremod-schm": {
+      "description": "A blank schematic.",
+      "factory": "./featuremod-schm/index#featuremodSchm"
     }
   }
 }
