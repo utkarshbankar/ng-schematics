@@ -35,6 +35,10 @@
       "description": "A blank schematic.",
       "factory": "./container-schm/index#containerSchm",
       "schema": "./container-schm/schema.json"
+    },
+    "featuremod-schm": {
+      "description": "A blank schematic.",
+      "factory": "./featuremod-schm/index#featuremodSchm"
     }
   }
 }

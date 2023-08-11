@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "baseUrl": "tsconfig",
-    "outDir": "./dist",
     "lib": ["es2018", "dom"],
     "declaration": true,
     "module": "commonjs",
