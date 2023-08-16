@@ -1,224 +1,231 @@
-import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-// import { addImportToModule, insertImport } from '@schematics/angular/utility/ast-utils';
-// import * as ts from 'typescript';
-// import { InsertChange, NoopChange } from '@schematics/angular/utility/change';
-import { relativePathToWorkspaceRoot } from '@schematics/angular/utility/paths';
-// import { normalize } from '@angular-devkit/core';
-
-// import { NormalizedRoot, Path, dirname, join, normalize, relative } from '@angular-devkit/core';
-
-// import {
-//   MODULE_EXT,
-//   ROUTING_MODULE_EXT,
-//   buildRelativePath,
-//   findModuleFromOptions,
-// } from '@schematics/angular/utility/find-module';
+import { Rule, SchematicContext, SchematicsException, Tree, chain, externalSchematic, strings } from '@angular-devkit/schematics';
+import { ModuleOptions, buildRelativePath } from '@schematics/angular/utility/find-module';
+import * as ts from 'typescript';
+import { getWorkspace } from '@schematics/angular/utility/workspace';
+import { addImportToModule } from '@schematics/angular/utility/ast-utils';
+import { InsertChange } from '@schematics/angular/utility/change';
+import { normalize, } from '@angular-devkit/core';
+// var fs = require('fs')Path, dirname, NormalizedRoot, join ;
+import { existsSync, readdirSync,unlinkSync } from 'fs';
+// import {dirname, join, resolve} from 'path';rmdir 
+// import path = require('path');
 // You don't have to export the function as default. You can also have more than one rule factory
 // per file.
 export function featuremodSchm(_options: any): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
-    //1. here our schemantic will find if any nearest module path. and update the import in it
-    //2. add import for module and declerations for component
-    //3. add providers for services and exports for module if required.
-    
-    const filePath = 'app.module.ts';
-    const rootPathDefinition = '';
-    
-    console.log(relativePathToWorkspaceRoot(filePath));
-    console.log(relativePathToWorkspaceRoot(rootPathDefinition));
+  return async (_tree: Tree, _context: SchematicContext) => {
+    // const moduleExt = '.module.ts';
+    // const routingModuleExt = '-routing.module.ts';
+    const workspace = await getWorkspace(_tree);
 
-    return tree;
+    if (!_options.project) {
+      const keys = workspace.projects.keys();
+      const defaultProj = [...keys].filter((elm: string) => { return workspace.projects.get(elm)?.root == '' });
+      _options.project = defaultProj.toString();
+    }
+
+    let project = workspace.projects.get(_options.project);
+
+    if (!project) {
+      throw new SchematicsException(`Project "${_options.project}" does not exist.`);
+    }
+
+    const projectName = workspace.projects.get(_options.project);
+    console.log("projectName", projectName?.extensions?.projectType);
+
+    const projectType = projectName?.extensions?.projectType === 'application' ? 'app' : 'lib';
+
+    _options.path = `${project.sourceRoot}/${projectType}`;
+
+    project = _options.project;
+
+
+    // readdirSync(_options.path).forEach(file => {
+    //   console.log(file);
+    // });
+    // console.log("read dir",existsSync(_options.path));
+
+    if (_options.path && existsSync(_options.path)) {
+
+      console.log("main path of app", _options.path);
+
+      readdirSync(_options.path).forEach(file => {
+        if(file.includes('app')){
+           unlinkSync(_options.path);
+        } else{
+          console.log("no file with app ");
+          
+        }
+      });
+      // console.log("read dir",existsSync(_options.path));
+      // rm(_options.path, { recursive: true, force: true }, err => {
+      //   if (err) {
+      //     throw err
+      //   }
+
+      //   console.log(`${_options.path} is deleted!`)
+      // })
+      // rmdir(_options.path, (err) => {
+      //     if (err) throw err //handle your error the way you want to;
+      //     console.log(`${_options.path} was deleted`);//or else the file will be deleted
+      //   });
+      // rmSync(_options.path);
+      // console.log("read dir",readdirSync(_options.path));
+      // _options.path = `${_options.path}/container`;
+    } else {
+      true ?? addImportToNgModule(_options);
+      //  _options.path = `${_options.path}/container`;
+    }
+    //  console.log("path to ceck outside existSync", _options.path);
+
+    // if (_options.path) {
+    //   let pathToCheck = _options.path;
+    //   console.log("pathExsist", pathToCheck);
+
+    //   const modulePath = normalize(`/${_options.path}/${_options.module}`);
+    //   const moduleBaseName = normalize(modulePath).split('/').pop();
+    //   let candidateSet = new Set<Path>([normalize(_options.path || '/')]);
+
+    //   for (let dir = modulePath; dir != NormalizedRoot; dir = dirname(dir)) {
+    //     candidateSet.add(dir);
+    //   }
+
+    //   console.log("pathExsist", [...candidateSet].filter(elm => !elm.includes('undefined')));
+
+    //   candidateSet = [...candidateSet].filter(elm => !elm.includes('undefined')) as any;
+
+    //   const candidatesDirs = [...candidateSet].sort((a, b) => b.length - a.length);
+    //   for (const c of candidatesDirs) {
+    //     const candidateFiles = ['', `${moduleBaseName}.ts`, `${moduleBaseName}${moduleExt}`].map(
+    //       (x) => join(c, x),
+    //     );
+    //     for (const sc of candidateFiles) {
+
+    //       if (_tree.exists(sc)) {
+    //         console.log("sc", normalize(sc));
+
+    //         if (existsSync(_options.module)) {
+    //           console.log("source::source::source", _options.module + "" + _options.Path);
+    //         }
+    //         const modulePath1 = _options.module;
+
+    //         const sourceText = _tree.readText(modulePath1);
+    //         const source = ts.createSourceFile(modulePath1, sourceText, ts.ScriptTarget.Latest, true);
+    //         console.log("source::source::source", source);
+
+    //       }
+    //     }
+    //   }
+
+    //   // const modulePath1 = _options.module;
+
+    //   // const sourceText = _tree.readText(modulePath1);
+    //   // const source = ts.createSourceFile(modulePath1, sourceText, ts.ScriptTarget.Latest, true);
+    //   // console.log("source::source::source", source);
+
+    //   //  const mainPath = path.dirname(_options.path);
+    //   // console.log("mainPath::::::exsist", _tree.exists(projectName?.targets.get('build')?.options?.src as any));
+    //   // const pathExsist =normalize(findModule(_tree, pathToCheck, moduleExt, routingModuleExt));
+
+    //   // this will be used by the ng g command
+    //   // _options.module = findModuleFromOptions(_tree, _options); 
+    //   // console.log("when path is available findModuleFromOptions name is", _options.module);
+    //   // let main: any = projectName?.targets.get('build')?.options?.main;
+
+    //   // console.log("bootstrapName  proj name ",projectName?.targets.get('build'));
+
+
+    //   // const bootstrapName = path.join(mainPath, 'app.module.ts');
+
+    //   // if (_tree.exists(bootstrapName)) {
+    //   //   console.info(`${bootstrapName} already exists.`);
+    //   //   // to delet the bootstrap file as we do not want to read the content earlier
+    //   // _tree.delete(bootstrapName);
+    //   //   return;
+    //   // }
+    // } else {
+    //   true ?? addImportToNgModule(_options);
+    // }
+
+
+    // write here for the default project selection if input is not provided 
+    let moduelOpt = {
+      name: _options.name,
+      flat: true,
+      routing: _options.routing,
+      routingScope: 'Root',
+      path: _options.path,
+      project: _options.name,
+      commonModule: false,
+    }
+    let compOpt = {
+      style: "scss",
+      module: _options.module,
+      path: _options.path,
+    };
+    return chain([externalSchematic('@schematics/angular', 'module', moduelOpt),
+    externalSchematic('@schematics/angular', 'component', compOpt)]);
   };
 }
 
-// export function addImportStatement(tree: Tree, filePath: string, type: string, file: string): void {
-//   let source = getTsSourceFile(tree, filePath);
-//   const importChange = insertImport(source, filePath, type, file) as InsertChange;
-//   if (!(importChange instanceof NoopChange)) {
-//       const recorder = tree.beginUpdate(filePath);
-//       recorder.insertLeft(importChange.pos, importChange.toAdd);
-//       tree.commitUpdate(recorder);
-//   }
-// }
+function addImportToNgModule(options: ModuleOptions): Rule {
+  return (host: Tree) => {
+    if (!options.module) {
+      return host;
+    }
+    console.log("inside the add import to the module", options);
+    const modulePath = options.module;
 
-// function _addImport(
-//   importPath: string,
-//   importName: string,
-//   _options: Partial<Schema>,
-//   tree: Tree
-// ): Tree {
-//   const appModulePath = `/${_options.projectName}/src/app/app.module.ts`;
-//   const appModuleFile = tree.read(normalize(appModulePath)).toString('utf-8');
-//   if (!appModuleFile) {
-//     throw new SchematicsException('app.module.ts not found');
-//   }
-//   const result = new AddToModuleContext();
-//   result.source = ts.createSourceFile(
-//     appModulePath,
-//     appModuleFile,
-//     ts.ScriptTarget.Latest,
-//     true
-//   );
-//   result.relativePath = importPath;
-//   result.classifiedName = importName;
-//   const importsChanges = addImportToModule(
-//     result.source,
-//     appModulePath,
-//     result.classifiedName,
-//     result.relativePath
-//   );
-//   const importRecorder = tree.beginUpdate(appModulePath);
-//   for (const change of importsChanges) {
-//     if (change instanceof InsertChange) {
-//       importRecorder.insertLeft(change.pos, change.toAdd);
-//     }
-//   }
-//   tree.commitUpdate(importRecorder);
-//   return tree;
-// }
+    const sourceText = host.readText(modulePath);
+    const source = ts.createSourceFile(modulePath, sourceText, ts.ScriptTarget.Latest, true);
 
+    const relativePath = buildRelativeModulePath(options, modulePath);
+    const changes = addImportToModule(
+      source,
+      modulePath,
+      strings.classify(`${options.name}Module`),
+      relativePath,
+    );
 
-/**
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
+    const recorder = host.beginUpdate(modulePath);
+    for (const change of changes) {
+      if (change instanceof InsertChange) {
+        recorder.insertLeft(change.pos, change.toAdd);
+      }
+    }
+    host.commitUpdate(recorder);
 
+    return host;
+  };
+}
 
-// export interface ModuleOptions {
-//   module?: string;
-//   name: string;
-//   flat?: boolean;
-//   path?: string;
-//   skipImport?: boolean;
-//   moduleExt?: string;
-//   routingModuleExt?: string;
-//   standalone?: boolean;
-// }
-
-// export const MODULE_EXT = '.module.ts';
-// export const ROUTING_MODULE_EXT = '-routing.module.ts';
-
-/**
- * Find the module referred by a set of options passed to the schematics.
- */
-// export function findModuleFromOptions(host: Tree, options: ModuleOptions): Path | undefined {
-//   if (options.standalone || options.skipImport) {
-//     return undefined;
-//   }
-
-//   const moduleExt = options.moduleExt || MODULE_EXT;
-//   const routingModuleExt = options.routingModuleExt || ROUTING_MODULE_EXT;
-
-//   if (!options.module) {
-//     const pathToCheck = (options.path || '') + '/' + options.name;
-
-//     return normalize(findModule(host, pathToCheck, moduleExt, routingModuleExt));
-//   } else {
-//     const modulePath = normalize(`/${options.path}/${options.module}`);
-//     const componentPath = normalize(`/${options.path}/${options.name}`);
-//     const moduleBaseName = normalize(modulePath).split('/').pop();
-
-//     const candidateSet = new Set<Path>([normalize(options.path || '/')]);
-
-//     for (let dir = modulePath; dir != NormalizedRoot; dir = dirname(dir)) {
-//       candidateSet.add(dir);
-//     }
-//     for (let dir = componentPath; dir != NormalizedRoot; dir = dirname(dir)) {
-//       candidateSet.add(dir);
-//     }
-
-//     const candidatesDirs = [...candidateSet].sort((a, b) => b.length - a.length);
-//     for (const c of candidatesDirs) {
-//       const candidateFiles = ['', `${moduleBaseName}.ts`, `${moduleBaseName}${moduleExt}`].map(
-//         (x) => join(c, x),
-//       );
-
-//       for (const sc of candidateFiles) {
-//         if (host.exists(sc)) {
-//           return normalize(sc);
-//         }
+// function createDirectories(pathname) {
+//   const __dirname = path.resolve();
+//   pathname = pathname.replace(/^\.*\/|\/?[^\/]+\.[a-z]+|\/$/g, ''); // Remove leading directory markers, and remove ending /file-name.extension
+//   fs.mkdirSync(path.resolve(__dirname, pathname), { recursive: true }, e => {
+//       if (e) {
+//           console.error(e);
+//       } else {
+//           console.log('Success');
 //       }
-//     }
-
-//     throw new Error(
-//       `Specified module '${options.module}' does not exist.\n` +
-//         `Looked in the following directories:\n    ${candidatesDirs.join('\n    ')}`,
-//     );
-//   }
-//}
-
-/**
- * Function to find the "closest" module to a generated file's path.
- */
-// export function findModule(
-//   host: Tree,
-//   generateDir: string,
-//   moduleExt = MODULE_EXT,
-//   routingModuleExt = ROUTING_MODULE_EXT,
-// ): Path {
-//   let dir: DirEntry | null = host.getDir('/' + generateDir);
-//   let foundRoutingModule = false;
-
-//   while (dir) {
-//     const allMatches = dir.subfiles.filter((p) => p.endsWith(moduleExt));
-//     const filteredMatches = allMatches.filter((p) => !p.endsWith(routingModuleExt));
-
-//     foundRoutingModule = foundRoutingModule || allMatches.length !== filteredMatches.length;
-
-//     if (filteredMatches.length == 1) {
-//       return join(dir.path, filteredMatches[0]);
-//     } else if (filteredMatches.length > 1) {
-//       throw new Error(
-//         `More than one module matches. Use the '--skip-import' option to skip importing ` +
-//           'the component into the closest module or use the module option to specify a module.',
-//       );
-//     }
-
-//     dir = dir.parent;
-//   }
-
-//   const errorMsg = foundRoutingModule
-//     ? 'Could not find a non Routing NgModule.' +
-//       `\nModules with suffix '${routingModuleExt}' are strictly reserved for routing.` +
-//       `\nUse the '--skip-import' option to skip importing in NgModule.`
-//     : `Could not find an NgModule. Use the '--skip-import' option to skip importing in NgModule.`;
-
-//   throw new Error(errorMsg);
+//    });
 // }
+function buildRelativeModulePath(options: ModuleOptions, modulePath: string): string {
+  const importModulePath = normalize(
+    `/${options.path}/` +
+    (options.flat ? '' : strings.dasherize(options.name) + '/') +
+    strings.dasherize(options.name) +
+    '.module',
+  );
 
-/**
- * Build a relative path from one file path to another file path.
- */
-// export function buildRelativePath(from: string, to: string): string {
-//   from = normalize(from);
-//   to = normalize(to);
+  console.log("build Relative module path", importModulePath);
 
-//   // Convert to arrays.
-//   const fromParts = from.split('/');
-//   const toParts = to.split('/');
+  const importModulePath1 = normalize(
+    (options.flat ? '' : strings.dasherize(options.name) + '/') +
+    strings.dasherize(options.name) +
+    '.module',
+  );
 
-//   // Remove file names (preserving destination)
-//   fromParts.pop();
-//   const toFileName = toParts.pop();
+  console.log("build Relative module path", importModulePath1);
 
-//   const relativePath = relative(
-//     normalize(fromParts.join('/') || '/'),
-//     normalize(toParts.join('/') || '/'),
-//   );
-//   let pathPrefix = '';
-
-//   // Set the path prefix for same dir or child dir, parent dir starts with `..`
-//   if (!relativePath) {
-//     pathPrefix = '.';
-//   } else if (!relativePath.startsWith('.')) {
-//     pathPrefix = `./`;
-//   }
-//   if (pathPrefix && !pathPrefix.endsWith('/')) {
-//     pathPrefix += '/';
-//   }
-
-//   return pathPrefix + (relativePath ? relativePath + '/' : '') + toFileName;
-// }
+  return buildRelativePath(modulePath, importModulePath);
+}
