@@ -38,7 +38,8 @@
     },
     "featuremod-schm": {
       "description": "A blank schematic.",
-      "factory": "./featuremod-schm/index#featuremodSchm"
+      "factory": "./featuremod-schm/index#featuremodSchm",
+      "schema": "./featuremod-schm/schema.json"
     }
   }
 }
