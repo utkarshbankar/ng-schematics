@@ -40,6 +40,10 @@
       "description": "A blank schematic.",
       "factory": "./featuremod-schm/index#featuremodSchm",
       "schema": "./featuremod-schm/schema.json"
+    },
+    "mf-mapp": {
+      "description": "A blank schematic.",
+      "factory": "./mf-mapp/index#mfMapp"
     }
   }
 }
