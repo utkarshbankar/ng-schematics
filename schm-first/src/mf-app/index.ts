@@ -1,6 +1,7 @@
 import { normalize, strings, } from '@angular-devkit/core';
 import { MergeStrategy, Rule, SchematicContext, SchematicsException, Tree, apply, applyTemplates, chain, externalSchematic, mergeWith, move, url } from '@angular-devkit/schematics';
 import { getWorkspace } from '@schematics/angular/utility/workspace';
+import { existsSync, readdirSync, unlinkSync } from 'fs';
 // import { existsSync } from 'fs';
 // import ts = require('typescript');
 // import path = require('path');
@@ -39,6 +40,22 @@ export function mfApp(_options: any): Rule {
     _options.path = `${project.sourceRoot}/${projectType}`;
 
     project = _options.project;
+
+    /**
+     * below code checks the app folder have any file with the app contained in it and then * delete all the files having app in it, so post that our schematics will work and add the chnages to be made
+     */
+    if (_options.path && existsSync(_options.path.toString())) {
+
+      console.log("main path of app", _options.path);
+
+      readdirSync(_options.path.toString()).forEach(file => {
+        if(file.includes('app')){
+           console.log(`./${_options.path}/${file}`);
+           unlinkSync(`${_options.path}/${file}`);
+        } else{
+          console.log(" file not available to make any chnages");
+        }
+      });
 
     /**
      * above code is common in evey schematic file this is just to find the type of app and path
