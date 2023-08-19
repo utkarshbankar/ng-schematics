@@ -15,8 +15,8 @@ import { getWorkspace } from '@schematics/angular/utility/workspace';
 */
 
 export function mfApp(_options: any): Rule {
-  return async(_tree: Tree, _context: SchematicContext) => {
-    
+  return async (_tree: Tree, _context: SchematicContext) => {
+
     const workspace = await getWorkspace(_tree);
 
     if (!_options.project) {
@@ -44,68 +44,63 @@ export function mfApp(_options: any): Rule {
      * above code is common in evey schematic file this is just to find the type of app and path
      * from here onwords we have basic checks
     */
-    
-    if (_options.path) { 
-      console.log("when path id available import have error", _options.path);
-        
-    
-        const templateSource = apply(url('./files'), [
-            applyTemplates({
-               ..._options,
-                classify: strings.classify, 
-                dasherize: strings.dasherize,
-               
-            }),
-            move(normalize(_options.path as string))
-        ]);
-        console.log("when path- before chain");
-        return chain([
-          externalSchematic( '@schematics/angular', 'module', {
-            name: _options.name,
-            flat: true,
-            routing: _options.routing,
-            routingScope: 'Root',
-            path: _options.path,
-            project: _options.name,
-          }),
-          externalSchematic('@schematics/angular','component', {
-            name: _options.name,
-            path: 'src/app',
-            flat:true
-          }),
-          externalSchematic( '@schematics/angular', 'module', {
-            name: _options.lazyModuleName,
-            flat: true,
-            commonModule:true,
-            path: `${_options.path}/${_options.lazyModuleName}`,
-            route:`${_options.lazyModuleName}`,
-            module:`${_options.path}/${_options.name}.module`,
-            routing: _options.routing,
-            routingScope: 'Child',
-          }),
-          externalSchematic('@schematics/angular','component', {
-            name: _options.lazyModuleName,
-            path: `${_options.path}/${_options.lazyModuleName}`,
-            flat:true
-          }),
 
-            mergeWith(templateSource, MergeStrategy.Overwrite)
-        ]);
+    if (_options.path) {
+      console.log("when path is not available import have error", _options.path);
+      const templateSource = apply(url('./files'), [
+        applyTemplates({
+          ..._options,
+          classify: strings.classify,
+          dasherize: strings.dasherize,
+        }),
+        move(normalize(_options.path as string))
+      ]);
+      console.log("when path- before chain");
+      return chain([
+        externalSchematic('@schematics/angular', 'module', {
+          name: _options.name,
+          flat: true,
+          routing: _options.routing,
+          routingScope: 'Root',
+          path: _options.path,
+          project: _options.name,
+        }),
+        externalSchematic('@schematics/angular', 'component', {
+          name: _options.name,
+          path: 'src/app',
+          flat: true
+        }),
+        externalSchematic('@schematics/angular', 'module', {
+          name: _options.lazyModuleName,
+          flat: true,
+          commonModule: true,
+          path: `${_options.path}/${_options.lazyModuleName}`,
+          route: `${_options.lazyModuleName}`,
+          module: `${_options.path}/${_options.name}.module`,
+          routing: _options.routing,
+          routingScope: 'Child',
+        }),
+        externalSchematic('@schematics/angular', 'component', {
+          name: _options.lazyModuleName,
+          path: `${_options.path}/${_options.lazyModuleName}`,
+          flat: true
+        }),
+
+        mergeWith(templateSource, MergeStrategy.Overwrite)
+      ]);
     } else {
-        // this will be used by the schematics command
-        const templateSource = apply(url('./files'), [
-            applyTemplates({
-              ..._options,
-                classify: strings.classify,
-                dasherize: strings.dasherize,
-                
-            })
-        ]);
-
-        // here the import is not working properly we need to customize the same functoin 
-        return chain([
-          mergeWith(templateSource)
-        ]);
+      // this will be used by the schematics command
+      const templateSource = apply(url('./files'), [
+        applyTemplates({
+          ..._options,
+          classify: strings.classify,
+          dasherize: strings.dasherize,
+        })
+      ]);
+      // here the import is not working properly we need to customize the same functoin 
+      return chain([
+        mergeWith(templateSource)
+      ]);
     }
   };
 }
