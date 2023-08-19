@@ -67,7 +67,7 @@ export function mfApp(_options: any): Rule {
         }),
         externalSchematic('@schematics/angular', 'component', {
           name: _options.name,
-          path: 'src/app',
+          path: _options.path,
           flat: true
         }),
         externalSchematic('@schematics/angular', 'module', {
@@ -75,7 +75,7 @@ export function mfApp(_options: any): Rule {
           flat: true,
           commonModule: true,
           path: `${_options.path}/${_options.lazyModuleName}`,
-          route: `${_options.lazyModuleName}`,
+          route:'make_this_string_empty',
           module: `${_options.path}/${_options.name}.module`,
           routing: _options.routing,
           routingScope: 'Child',
