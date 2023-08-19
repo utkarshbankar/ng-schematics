@@ -41,9 +41,14 @@
       "factory": "./featuremod-schm/index#featuremodSchm",
       "schema": "./featuremod-schm/schema.json"
     },
-    "mf-mapp": {
+    "mf-app": {
       "description": "A blank schematic.",
-      "factory": "./mf-mapp/index#mfMapp"
+      "factory": "./mf-app/index#mfApp",
+      "schema": "./mf-app/schema.json"
+    },
+    "build-app": {
+      "description": "A blank schematic.",
+      "factory": "./build-app/index#buildApp"
     }
   }
 }
