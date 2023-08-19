@@ -10,8 +10,12 @@ export function aamfSchm(_options: any): Rule {
       packageName: '@angular-architects/module-federation'
     }));
 
-    _context.addTask(new RunSchematicTask('aamf-ngadd-schm', _options), [installTaskId])
+    const installTaskId1 = _context.addTask(new RunSchematicTask('aamf-ngadd-schm', _options), [installTaskId])
 
+    _context.addTask(new RunSchematicTask('mf-app', _options), [installTaskId1]);
+
+   
     return _tree;
   };
 }
+

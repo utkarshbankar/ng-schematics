@@ -1,0 +1,27 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "$id": "containerizedSchematic",
+    "title": "ng new options schema",
+    "type": "object",
+    "description": "Add containerized files in project structure ",
+    "properties": {
+        "project": {
+            "type": "string",
+            "description": "The project to add module",
+            "$default": {
+                "$source": "argv",
+                "index": 0
+            }
+        },
+         "name":{
+            "type": "string",
+            "description": "Enter the same name as root module name ",
+            "$default": {
+                "$source": "argv",
+                "index": 0
+            },
+            "x-prompt": "RootModule name"
+        }
+    },
+    "required": ["name"]
+}
