@@ -11,9 +11,11 @@ export function aamfSchm(_options: any): Rule {
     }));
 
     const installTaskId1 = _context.addTask(new RunSchematicTask('aamf-ngadd-schm', _options), [installTaskId])
+    // externalSchematic('@angular-architects/module-federation', 'ng-add', _options);
 
-    _context.addTask(new RunSchematicTask('mf-app', _options), [installTaskId1]);
+    const installTaskId2 = _context.addTask(new RunSchematicTask('mf-app', _options), [installTaskId1]);
 
+    _context.addTask(new RunSchematicTask('build-app', _options), [installTaskId2]);
    
     return _tree;
   };

@@ -20,7 +20,8 @@
     },
     "aamf-schm": {
       "description": "A blank schematic.",
-      "factory": "./aamf-schm/index#aamfSchm"
+      "factory": "./aamf-schm/index#aamfSchm",
+      "schema": "./aamf-schm/schema.json"
     },
     "aamf-ngadd-schm": {
       "description": "A blank schematic.",
@@ -43,8 +44,7 @@
     },
     "mf-app": {
       "description": "A blank schematic.",
-      "factory": "./mf-app/index#mfApp",
-      "schema": "./mf-app/schema.json"
+      "factory": "./mf-app/index#mfApp"
     },
     "build-app": {
       "description": "A blank schematic.",
