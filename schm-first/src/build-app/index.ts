@@ -11,7 +11,6 @@ export function buildApp(_options: any): Rule {
 
 export function updateMain(main: string, options: any): Rule {
 
-  console.log("buildApp options", options);
   /**
    * The above function is main function for the structural schematic that can be fired when we call schematics.
    * this should be main function which execute all rules for the schematics
@@ -20,25 +19,29 @@ export function updateMain(main: string, options: any): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     const mainPath = path.dirname(main);
     const bootstrapName = path.join(mainPath, 'bootstrap.ts');
+    const indexName = path.join(mainPath, 'index.html');
+
+    const indexData = tree.read(indexName);
+    if (indexData && tree.exists(indexName)) {
+      tree.delete(indexName);
+      // tree.create(indexName);
+      tree.create(indexName, indexData?.toString().replace('<app-root></app-root>', `<app-${options.name}></app-${options.name}>`));
+    }
+
     let newBootstrapContent: string = '';
     const optName = options.name.charAt(0).toUpperCase() + options.name.toLowerCase().slice(1);
 
     if (tree.exists(bootstrapName)) {
-      console.info(`${bootstrapName} already exists.`);
-
+      // console.info(`${bootstrapName} already exists.`);
       tree.delete(bootstrapName);
-
       newBootstrapContent = `import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-
-       import { ${optName}Module } from './app/${options.name}.module';
+    import { ${optName}Module } from './app/${options.name}.module';
       
-       platformBrowserDynamic().bootstrapModule(${optName}Module).catch(err => console.error(err));
-      `;
+    platformBrowserDynamic().bootstrapModule(${optName}Module).catch(err => console.error(err));
+    `;
 
       tree.create(bootstrapName, newBootstrapContent);
-
       //tree.overwrite(bootstrapContent, newBootstrapContent);
-
       // to delet the bootstrap file as we do not want to read the content earlier
       // tree.delete(bootstrapName);
       // return;
@@ -47,10 +50,9 @@ export function updateMain(main: string, options: any): Rule {
       // check the type here for time being used any.
       // const mainContent: any = tree.read(main);
       newBootstrapContent = `import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-
-       import { ${optName}Module } from './app/${options.name}.module';
+      import { ${optName}Module } from './app/${options.name}.module';
       
-       platformBrowserDynamic().bootstrapModule(${optName}Module).catch(err => console.error(err));
+      platformBrowserDynamic().bootstrapModule(${optName}Module).catch(err => console.error(err));
       `;
       tree.create(bootstrapName, newBootstrapContent);
 
@@ -61,7 +63,6 @@ export function updateMain(main: string, options: any): Rule {
 
       if (options?.type === 'dynamic-host') {
         newMainContent = `import { initFederation } from '@angular-architects/module-federation';
-
   initFederation('/assets/mf.manifest.json')
     .catch(err => console.error(err))
     .then(_ => import('./bootstrap'))
@@ -73,7 +74,6 @@ export function updateMain(main: string, options: any): Rule {
       }
       tree.overwrite(main, newMainContent);
     }
-
     return tree;
   };
 }
@@ -111,13 +111,11 @@ export default function getConfig(options: any): Rule {
 
     let projectConfig: any;
     const workspaceConfig = tree.read('/angular.json');
-
-    console.log("!options.path!options.path!options.path", options.path);
-
+    // console.log("!options.path!options.path!options.path", options.path);
     // from now following along with angular docs with slight modifications. 
     // if (workspaceConfig && !options.path) { 
     // on this line we remove !options.path --> remember this is due to we are calling this schematic from our mf-app schematci if we call this from build-app then our commented code will work
-    if (workspaceConfig && options.path) {
+    if (workspaceConfig && !options.path) {
       const workspaceContent = workspaceConfig.toString('utf-8');
       const workspace: any = JSON.parse(workspaceContent);
       /**
@@ -134,7 +132,7 @@ export default function getConfig(options: any): Rule {
 
       const projectName = options.project as string;
 
-      console.log("projectNameprojectName", projectName);
+      // console.log("projectNameprojectName", projectName);
 
       projectConfig = workspace.projects[projectName];
       const projectType = projectConfig.projectType === 'application' ? 'app' : 'lib';
@@ -142,7 +140,7 @@ export default function getConfig(options: any): Rule {
       options.path = `${projectConfig.sourceRoot}/${projectType}`;
     }
 
-    console.log("first path comp is there", options.path);
+    // console.log("first path comp is there", options.path);
 
     if (!projectConfig) {
       throw new Error(`Project not found!`);
