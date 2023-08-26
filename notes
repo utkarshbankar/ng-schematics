@@ -10,4 +10,5 @@ add watch mode
 - "watch": "tsc -p tsconfig.json --watch",
 
 followed this link and basic schematics is working
+- https://github.com/angular/angular-cli/tree/main/packages/schematics
 - https://dev.to/shhdharmen/different-ways-to-run-schematics-from-another-schematics-1jd1
