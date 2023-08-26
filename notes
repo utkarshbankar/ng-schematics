@@ -1,5 +1,13 @@
-install schemantic cli
+install schematic cli
+
 - npm install -g @angular-devkit/schematics-cli
+- schematics blank --name= schematics-name
+- cd ./schematics-name
+    - npm run build
+    - npm link <path_to_Schematic>/schematic-name
+
+add watch mode 
+- "watch": "tsc -p tsconfig.json --watch",
 
 followed this link and basic schematics is working
 - https://dev.to/shhdharmen/different-ways-to-run-schematics-from-another-schematics-1jd1
