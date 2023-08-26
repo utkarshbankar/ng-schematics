@@ -49,6 +49,16 @@
     "build-app": {
       "description": "A blank schematic.",
       "factory": "./build-app/index#buildApp"
+    },
+    "mf-standalone": {
+      "description": "A blank schematic.",
+      "factory": "./mf-standalone/index#mfStandalone",
+      "schema": "./mf-standalone/schema.json"
+    },
+    "lazy-module": {
+      "description": "A blank schematic.",
+      "factory": "./lazy-module/index#lazyModule",
+      "schema": "./lazy-module/schema.json"
     }
   }
 }

@@ -1,0 +1,2 @@
+<p>created component through the custome schematic.</p>
+<div #<%= dasherize(lazyModuleName) %>ContainerRef  ></div>

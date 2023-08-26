@@ -113,7 +113,7 @@ export function addDeclarationToNgModule(options: DeclarationToNgModuleOptions):
       `/${options.path}/` + strings.dasherize(options.name) +
         (options.type ? '.' : '') +
         strings.dasherize(options.type);
- 
+    
     const importPath = buildRelativePath(modulePath, filePath);
     const classifiedName = strings.classify(options.name) + strings.classify(options.type);
     const changes = addDeclarationToModule(source, modulePath, classifiedName, importPath);
