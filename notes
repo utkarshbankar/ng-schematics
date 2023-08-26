@@ -7,6 +7,7 @@ install schematic cli
 - From application root
     - npm link <path_to_Schematic>/schematic-name
     - ng g <root_schematic_name>:<sub_schematics_name>
+    - npm link <path_to_Schematic>/schematic-name
 
 add watch mode 
 - "watch": "tsc -p tsconfig.json --watch",
