@@ -1,0 +1,2 @@
+<p>created component through the custom schematic.</p>
+<app-<%= dasherize(standaloneComponentName) %>></app-<%= dasherize(standaloneComponentName) %>>

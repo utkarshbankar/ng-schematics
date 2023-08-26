@@ -1,0 +1,23 @@
+import { Component, ViewChild, createNgModule, Injector, AfterViewInit, ViewContainerRef } from '@angular/core';
+
+@Component({
+    selector: 'app-<%= dasherize(name) %>',
+    templateUrl: './<%= dasherize(name) %>.component.html',
+    styleUrls: ['./<%= dasherize(name) %>.component.scss'],
+})
+export class <%= classify(name) %>Component implements AfterViewInit {
+
+title:string = '<%= name %>';
+
+@ViewChild('<%= dasherize(lazyModuleName) %>ContainerRef', { read: ViewContainerRef }) <%= dasherize(lazyModuleName) %>ContainerRef !: ViewContainerRef;
+
+constructor(private injector: Injector) {}
+
+async ngAfterViewInit() {
+  const <%=dasherize(lazyModuleName)%>LazyModule  = await import("./<%=dasherize(lazyModuleName)%>/<%= dasherize(lazyModuleName) %>.module");
+  const moduleRef =  createNgModule( <%= dasherize(lazyModuleName) %>LazyModule.<%= classify(lazyModuleName) %>Module, this.injector)
+  const LazyModuleFactory = moduleRef.instance.resolve<%= classify(lazyModuleName) %>Component();
+  this.<%= dasherize(lazyModuleName) %>ContainerRef.createComponent(LazyModuleFactory, {ngModuleRef: moduleRef});
+}
+
+}

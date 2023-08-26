@@ -1,0 +1,20 @@
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+
+import { <%= classify(name) %>Component } from './<%= dasherize(name) %>.component'<% ; %>
+<% if (routing) { %>
+import { <%= classify(name) %>RoutingModule } from './<%= dasherize(name) %>-routing.module'<% ;} %>
+
+
+@NgModule({
+  declarations: [
+    <%= classify(name) %>Component
+  ],
+  imports: [
+    BrowserModule<% if (routing) { %>,
+    <%= classify(name) %>RoutingModule<% } %>
+  ],
+  providers: [],
+  bootstrap: [<%= classify(name) %>Component]
+})
+export class <%= classify(name) %>Module { }
