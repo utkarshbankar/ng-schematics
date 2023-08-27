@@ -4,6 +4,7 @@ install schematic cli
 - schematics blank --name= schematics-name
 - cd ./schematics-name
     - npm run build
+- From application root
     - npm link <path_to_Schematic>/schematic-name
 
 add watch mode 
