@@ -2,7 +2,6 @@ import { normalize, strings, } from '@angular-devkit/core';
 import { MergeStrategy, Rule, SchematicContext, SchematicsException, Tree, apply, applyTemplates, chain, externalSchematic, mergeWith, move, url } from '@angular-devkit/schematics';
 import { getWorkspace } from '@schematics/angular/utility/workspace';
 import { existsSync, readdirSync, unlinkSync } from 'fs';
-import { addImportToModule } from '@schematics/angular/utility/ast-utils';
 
 // You don't have to export the function as default. You can also have more than one rule factory
 // per file.
@@ -40,11 +39,10 @@ export function mfStandalone(_options: any): Rule {
           //  console.log(`./${_options.path}/${file}`);
           //  rmSync(file);
           unlinkSync(`${_options.path}/${file}`);
-        } else {
-          console.error("no file with app substring");
         }
       });
-
+    }else {
+      console.error("removed app prefix files");
     }
     /**
      * above code is common in every schematic file this is just to find the type of app and
