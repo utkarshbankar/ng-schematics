@@ -25,3 +25,5 @@ yarn-error.log*
 # Mac OSX Finder files.
 **/.DS_Store
 .DS_Store
+
+/package-lock.json

@@ -42,6 +42,10 @@
       "factory": "./featuremod-schm/index#featuremodSchm",
       "schema": "./featuremod-schm/schema.json"
     },
+    "parent-schem": {
+      "description": "A blank schematic.",
+      "factory": "./parent-schem/index#parentSchem"
+    },
     "mf-app": {
       "description": "A blank schematic.",
       "factory": "./mf-app/index#mfApp"
@@ -52,13 +56,21 @@
     },
     "mf-standalone": {
       "description": "A blank schematic.",
-      "factory": "./mf-standalone/index#mfStandalone",
-      "schema": "./mf-standalone/schema.json"
+      "factory": "./mf-standalone/index#mfStandalone"
     },
     "lazy-module": {
       "description": "A blank schematic.",
-      "factory": "./lazy-module/index#lazyModule",
-      "schema": "./lazy-module/schema.json"
+      "factory": "./lazy-module/index#lazyModule"
+    },
+    "mf-frame": {
+      "description": "A blank schematic.",
+      "factory": "./mf-frame/index#mfFrame",
+      "schema": "./mf-frame/schema.json"
+    },
+    "mf-smart": {
+      "description": "A blank schematic.",
+      "factory": "./mf-smart/index#mfSmart",
+      "schema": "./mf-smart/schema.json"
     }
   }
 }

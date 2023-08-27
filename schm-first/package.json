@@ -1,6 +1,6 @@
 {
   "name": "schm-first",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "description": "A blank schematics",
   "scripts": {
     "build": "tsc -p tsconfig.json",
@@ -16,7 +16,8 @@
   "dependencies": {
     "@angular-devkit/core": "^16.1.7",
     "@angular-devkit/schematics": "^16.1.7",
-    "@schematics/angular": "^16.1.8",
+    "@angular-devkit/schematics-cli": "^16.2.0",
+    "@schematics/angular": "^16.2.0",
     "semver": "^7.5.4",
     "typescript": "~5.1.3"
   },

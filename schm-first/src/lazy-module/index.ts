@@ -40,11 +40,10 @@ export function lazyModule(_options: any): Rule {
           //  console.log(`./${_options.path}/${file}`);
           //  rmSync(file);
           unlinkSync(`${_options.path}/${file}`);
-        } else {
-          console.error("no file with app substring");
         }
       });
-
+    }else {
+      console.error("removed app prefix files");
     }
     /**
      * above code is common in every schematic file this is just to find the type of app and
@@ -142,8 +141,6 @@ export function lazyModuleRule(_options: any): Rule {
   return async (_tree: Tree, _context: SchematicContext) => {
       
     if (_options.path) {
-      console.log("..._options", _options);
-      
       const templateSourceLazyModule = apply(url('./files/lazy'), [
         applyTemplates({
           ..._options,
