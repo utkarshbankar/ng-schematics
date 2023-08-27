@@ -71,6 +71,11 @@
       "description": "A blank schematic.",
       "factory": "./mf-smart/index#mfSmart",
       "schema": "./mf-smart/schema.json"
+    },
+    "lib-temp": {
+      "description": "A blank schematic.",
+      "factory": "./lib-temp/index#libTemp",
+      "schema": "./lib-temp/schema.json"
     }
   }
 }
