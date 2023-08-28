@@ -76,6 +76,10 @@
       "description": "A blank schematic.",
       "factory": "./lib-temp/index#libTemp",
       "schema": "./lib-temp/schema.json"
+    },
+    "add-lib": {
+      "description": "A blank schematic.",
+      "factory": "./add-lib/index#addLib"
     }
   }
 }

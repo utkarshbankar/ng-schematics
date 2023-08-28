@@ -56,6 +56,9 @@ export function libTemp(_options: any): Rule {
 
     // _options.path = `${project.sourceRoot}`;
 
+    if(_tree.exists('package.json')){
+      updatePackageJson(_tree);
+    }
     console.log("_options.path for lib", workspace.extensions.newProjectRoot );
     
     const rule =
@@ -68,4 +71,54 @@ export function libTemp(_options: any): Rule {
 
     // return _tree;
   };
+}
+
+export function updateTemp(_options: any): Rule {
+  return async(tree: Tree, _context: SchematicContext) => {
+    const packageJson: PackageJson = JSON.parse((tree.read('package.json') as any).toString('utf-8')
+  );
+
+  if (!packageJson.scripts) {
+    packageJson.scripts = {
+      "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
+    };
+  }
+
+  if (!packageJson.scripts['run:all']) {
+    
+    packageJson.scripts['run:all'] =
+      'node node_modules/@angular-architects/module-federation/src/server/mf-dev-server.js';
+  }
+
+  tree.overwrite('package.json', JSON.stringify(packageJson, null, 2));
+  }}
+interface PackageJson {
+  scripts?: { [key: string]: string };
+}
+
+function updatePackageJson(tree: Tree): void {
+  const packageJson: PackageJson = JSON.parse((tree.read('package.json') as any).toString('utf-8')
+  );
+
+  if (!packageJson.scripts) {
+    packageJson.scripts = {
+      "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
+    };
+  }
+
+  if (!packageJson.scripts['run:all']) {
+    
+    packageJson.scripts['run:all'] =
+      'node node_modules/@angular-architects/module-federation/src/server/mf-dev-server.js';
+  }
+
+  tree.overwrite('package.json', JSON.stringify(packageJson, null, 2));
 }
