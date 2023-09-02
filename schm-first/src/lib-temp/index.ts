@@ -15,7 +15,7 @@ export function libTemp(_options: any): Rule {
     //   "application",
     //   _options
     // );
-
+    updateAngularJson(_tree);
     return chain([updateConfig(_options),config(_options) ]);
   };
 }
@@ -59,7 +59,7 @@ export function updateConfig(_options: any): Rule {
        }
       }); 
        defaultProj.toString();
-    }
+    } 
 
     // let project = workspace.projects.get(_options.project);
 
@@ -109,4 +109,13 @@ function updatePackageJson(tree: Tree): void {
   }
 
   tree.overwrite('package.json', JSON.stringify(packageJson, null, 2));
+}
+
+function updateAngularJson(tree:Tree): void{
+  const angularJson = JSON.parse((tree.read('angular.json') as any).toString('utf-8'));
+
+  if (!angularJson.scripts) {
+    console.log("angularJsonangularJson", angularJson.projects.testlib.architect);
+    
+  }
 }
