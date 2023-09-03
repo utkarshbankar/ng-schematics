@@ -80,6 +80,10 @@
     "add-lib": {
       "description": "A blank schematic.",
       "factory": "./add-lib/index#addLib"
+    },
+    "lib-update": {
+      "description": "A blank schematic.",
+      "factory": "./lib-update/index#libUpdate"
     }
   }
 }
