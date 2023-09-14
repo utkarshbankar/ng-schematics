@@ -42,7 +42,7 @@ export function updateConfig(_options: any): Rule {
       workspaceTxt.newProjectRoot = './'
       _tree.overwrite(ngJsonFileName, JSON.stringify(workspaceTxt, null, '\t'));
     }
-    _options.projectRoot = `${'./'}`;
+    _options.projectRoot = './';
     if (_tree.exists('package.json') || _tree.exists('README.md')) {
       _tree.delete('package.json');
       _tree.delete('README.md');
